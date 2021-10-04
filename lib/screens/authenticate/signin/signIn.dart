@@ -25,14 +25,14 @@ class _SignInState extends State<SignIn> {
           vertical: 20.0,
           horizontal: 50.0,
         ),
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () async {
             dynamic result = await _auth.signinAnon();
             if (result == null) {
               print('error in signin');
             } else {
-              print('success');
-              print(result);
+              //print('success');
+              //print(result);
             }
           },
           child: Text('SignIn'),
