@@ -12,9 +12,11 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
   //textfield state
   String email = "";
   String password = "";
+  String error = "";
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +50,14 @@ class _RegisterState extends State<Register> {
             horizontal: 50.0,
           ),
           child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 SizedBox(
                   height: 20.0,
                 ),
                 TextFormField(
+                  validator: (value) => value.isEmpty ? 'Enter an Email' : null,
                   onChanged: (value) {
                     setState(() {
                       email = value;
@@ -65,6 +69,9 @@ class _RegisterState extends State<Register> {
                 ),
                 TextFormField(
                   obscureText: true,
+                  validator: (value) => value.length < 6
+                      ? 'Password contains 6+ characters'
+                      : null,
                   onChanged: (value) {
                     setState(() {
                       password = value;
@@ -76,13 +83,24 @@ class _RegisterState extends State<Register> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    print(email);
-                    print(password);
+                    if (_formKey.currentState.validate()) {
+                      dynamic result =
+                          await _auth.registerEmailPassword(email, password);
+                      if (result == null) {
+                        setState(() {
+                          error = 'error';
+                        });
+                      }
+                    }
                   },
                   child: Text(
                     "Register",
                   ),
                 ),
+                SizedBox(
+                  height: 12.0,
+                ),
+                Text(error),
               ],
             ),
           )),
