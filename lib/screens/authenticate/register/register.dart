@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/config/colors.dart';
 import 'package:flutter_firebase/services/auth.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({Key key}) : super(key: key);
+class Register extends StatefulWidget {
+  const Register({Key key}) : super(key: key);
 
   @override
-  _SignInState createState() => _SignInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
-
   //textfield state
   String email = "";
   String password = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +22,7 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         backgroundColor: ColorPallete.AppbarBrown,
         elevation: 0.0,
-        title: Text('Sign In to the App'),
+        title: Text('Register to the App'),
       ),
       body: Container(
           padding: EdgeInsets.symmetric(
@@ -62,7 +62,7 @@ class _SignInState extends State<SignIn> {
                     print(password);
                   },
                   child: Text(
-                    "SignIn",
+                    "Register",
                   ),
                 ),
               ],
