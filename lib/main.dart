@@ -1,24 +1,8 @@
 import 'package:flutter/material.dart';
+import 'config/myapp.dart';
 
 void main() {
   runApp(
-    MaterialApp(
-      home: MyApp(),
-      debugShowCheckedModeBanner: false,
-    ),
+    MyApp(),
   );
-}
-
-class MyApp extends StatefulWidget {
-  MyApp({Key key}) : super(key: key);
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
 }
