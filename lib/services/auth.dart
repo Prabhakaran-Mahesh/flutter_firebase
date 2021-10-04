@@ -9,6 +9,14 @@ class AuthService {
     return user != null ? AccountUser(uid: user.uid) : null;
   }
 
+  //change user stream
+  Stream<AccountUser> get userInstance {
+    return _auth
+        .authStateChanges()
+        //.map((User user) => _userFromFireBaseUser(user));
+        .map(_userFromFireBaseUser);
+  }
+
   // signin anonymous
   Future signinAnon() async {
     try {
