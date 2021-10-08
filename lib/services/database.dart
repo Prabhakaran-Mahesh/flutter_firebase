@@ -16,4 +16,9 @@ class DatabaseService {
       'strength': strength,
     });
   }
+
+  // get streams
+  Stream<QuerySnapshot> get shawarma {
+    return shawarmaCollection.snapshots();
+  }
 }
