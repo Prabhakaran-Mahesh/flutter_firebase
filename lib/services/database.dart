@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/models/shawarma.dart';
 
 class DatabaseService {
   final String uid;
@@ -17,8 +18,19 @@ class DatabaseService {
     });
   }
 
+  //shawarma list
+  List<Shawarma> _shawarmaListFromSnapshot(QuerySnapshot querySnapshot) {
+    return querySnapshot.docs.map((doc) {
+      return Shawarma(
+        name: doc['name'] ?? '',
+        shawarma: doc['shawarma'] ?? '0',
+        strength: doc['strength'] ?? 100,
+      );
+    }).toList();
+  }
+
   // get streams
-  Stream<QuerySnapshot> get shawarma {
-    return shawarmaCollection.snapshots();
+  Stream<List<Shawarma>> get shawarma {
+    return shawarmaCollection.snapshots().map(_shawarmaListFromSnapshot);
   }
 }

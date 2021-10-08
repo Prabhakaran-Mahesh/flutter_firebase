@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/config/colors.dart';
+import 'package:flutter_firebase/models/shawarma.dart';
 import 'package:flutter_firebase/screens/home/widgets/shawarmaList.dart';
 import 'package:flutter_firebase/services/auth.dart';
 import 'package:flutter_firebase/services/database.dart';
@@ -11,7 +11,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<QuerySnapshot>.value(
+    return StreamProvider<List<Shawarma>>.value(
       value: DatabaseService().shawarma,
       child: Scaffold(
         backgroundColor: ColorPallete.VeryLightBrown,
