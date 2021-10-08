@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/config/colors.dart';
+import 'package:flutter_firebase/config/constants.dart';
 import 'package:flutter_firebase/services/auth.dart';
 
 class SignIn extends StatefulWidget {
@@ -22,7 +23,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorPallete.brownLight,
+      backgroundColor: ColorPallete.BrownLight,
       appBar: AppBar(
         backgroundColor: ColorPallete.AppbarBrown,
         elevation: 0.0,
@@ -58,6 +59,7 @@ class _SignInState extends State<SignIn> {
                   height: 20.0,
                 ),
                 TextFormField(
+                  decoration: textInputDecoration.copyWith(hintText: "Email"),
                   validator: (value) => value.isEmpty ? 'Enter an Email' : null,
                   onChanged: (value) {
                     setState(() {
@@ -69,6 +71,8 @@ class _SignInState extends State<SignIn> {
                   height: 20.0,
                 ),
                 TextFormField(
+                  decoration:
+                      textInputDecoration.copyWith(hintText: "Password"),
                   validator: (value) => value.length < 6
                       ? 'Password contains 6+ characters'
                       : null,
