@@ -15,6 +15,8 @@ class _ShawarmaListState extends State<ShawarmaList> {
   @override
   Widget build(BuildContext context) {
     final shawarma = Provider.of<List<Shawarma>>(context);
+    print("THIS IS WHERE IM PRINTING");
+    print(shawarma);
 
     return ListView.builder(
       itemCount: shawarma.length,

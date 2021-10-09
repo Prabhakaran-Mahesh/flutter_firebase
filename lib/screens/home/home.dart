@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/config/colors.dart';
 import 'package:flutter_firebase/models/shawarma.dart';
+import 'package:flutter_firebase/screens/home/widgets/bottomForm.dart';
 import 'package:flutter_firebase/screens/home/widgets/shawarmaList.dart';
 import 'package:flutter_firebase/services/auth.dart';
 import 'package:flutter_firebase/services/database.dart';
@@ -11,6 +12,20 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _settingsPanel() {
+      showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 20.0,
+                horizontal: 60.0,
+              ),
+              child: BottomForm(),
+            );
+          });
+    }
+
     return StreamProvider<List<Shawarma>>.value(
       value: DatabaseService().shawarma,
       child: Scaffold(
@@ -33,6 +48,19 @@ class Home extends StatelessWidget {
                 style: TextStyle(color: ColorPallete.Black),
               ),
             ),
+            TextButton.icon(
+              onPressed: () => _settingsPanel(),
+              icon: Icon(
+                Icons.settings,
+                color: ColorPallete.Black,
+              ),
+              label: Text(
+                "Settings",
+                style: TextStyle(color: ColorPallete.Black),
+              ),
+            ),
+            SizedBox(width: 5.0),
+            SizedBox(width: 5.0),
           ],
         ),
         body: ShawarmaList(),
