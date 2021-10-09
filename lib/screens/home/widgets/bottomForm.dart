@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/config/constants.dart';
+import 'package:flutter_firebase/models/user.dart';
+import 'package:flutter_firebase/services/database.dart';
+import 'package:provider/provider.dart';
 
 class BottomForm extends StatefulWidget {
   @override
@@ -15,67 +19,84 @@ class _BottomFormState extends State<BottomForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          Text(
-            'Update your Info settings',
-            style: TextStyle(
-              fontSize: 18.0,
-            ),
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-          TextFormField(
-            decoration: textInputDecoration.copyWith(hintText: "Name"),
-            validator: (value) => value.isEmpty ? 'Enter a Name' : null,
-            onChanged: (value) {
-              setState(() {
-                _currentName = value;
-              });
-            },
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
+    final user = Provider.of<AccountUser>(context);
 
-          //MayoSlider
-          TextFormField(
-            decoration: textInputDecoration.copyWith(hintText: "Mayo"),
-            validator: (value) => value.isEmpty ? 'Enter Mayo' : null,
-            onChanged: (value) {
-              setState(() {
-                _currentMayo = value;
-              });
-            },
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
+    return StreamBuilder<UserData>(
+        stream: DatabaseService(uid: user.uid).userData,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            UserData userData = snapshot.data;
+            return Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Text(
+                    'Update your Info settings',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    initialValue: userData.name,
+                    decoration: textInputDecoration.copyWith(hintText: "Name"),
+                    validator: (value) =>
+                        value.isEmpty ? 'Enter a Name' : userData.name,
+                    onChanged: (value) {
+                      setState(() {
+                        _currentName = value;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
 
-          //StrengthSlider
-          Slider(
-            activeColor: Colors.brown[_currentStrength ?? 100],
-            inactiveColor: Colors.brown[_currentStrength ?? 100],
-            value: (_currentStrength ?? 100).toDouble(),
-            onChanged: (value) => setState(
-              () => _currentStrength = value.round(),
-            ),
-            min: 100,
-            max: 900,
-            divisions: 8,
-          ),
+                  //MayoSlider
+                  TextFormField(
+                    initialValue: userData.mayo,
+                    decoration: textInputDecoration.copyWith(hintText: "Mayo"),
+                    validator: (value) =>
+                        value.isEmpty ? 'Enter Mayo' : userData.mayo,
+                    onChanged: (value) {
+                      setState(() {
+                        _currentMayo = value;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
 
-          ElevatedButton(
-            onPressed: () {},
-            child: Text(
-              "Update",
-            ),
-          ),
-        ],
-      ),
-    );
+                  //StrengthSlider
+                  Slider(
+                    activeColor:
+                        Colors.brown[_currentStrength ?? userData.strength],
+                    inactiveColor:
+                        Colors.brown[_currentStrength ?? userData.strength],
+                    value: (_currentStrength ?? userData.strength).toDouble(),
+                    onChanged: (value) => setState(
+                      () => _currentStrength = value.round(),
+                    ),
+                    min: 100,
+                    max: 900,
+                    divisions: 8,
+                  ),
+
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Update",
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Container();
+          }
+        });
   }
 }

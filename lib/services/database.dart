@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/models/shawarma.dart';
+import 'package:flutter_firebase/models/user.dart';
 
 class DatabaseService {
   final String uid;
@@ -32,5 +33,19 @@ class DatabaseService {
   // get streams
   Stream<List<Shawarma>> get shawarma {
     return shawarmaCollection.snapshots().map(_shawarmaListFromSnapshot);
+  }
+
+  //Userdata from snapshot
+  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return UserData(
+        uid: uid,
+        name: snapshot['name'],
+        mayo: snapshot['shawarma'],
+        strength: snapshot['strength']);
+  }
+
+  //get user doc Stream
+  Stream<UserData> get userData {
+    return shawarmaCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
   }
 }
