@@ -4,6 +4,7 @@ import 'package:flutter_firebase/config/constants.dart';
 import 'package:flutter_firebase/models/user.dart';
 import 'package:flutter_firebase/services/database.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_firebase/config/loading.dart';
 
 class BottomForm extends StatefulWidget {
   @override
@@ -95,7 +96,7 @@ class _BottomFormState extends State<BottomForm> {
               ),
             );
           } else {
-            return Container();
+            return Loading();
           }
         });
   }

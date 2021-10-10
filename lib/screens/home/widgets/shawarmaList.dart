@@ -14,12 +14,12 @@ class ShawarmaList extends StatefulWidget {
 class _ShawarmaListState extends State<ShawarmaList> {
   @override
   Widget build(BuildContext context) {
-    final shawarma = Provider.of<List<Shawarma>>(context);
+    final List<Shawarma> shawarma = Provider.of<List<Shawarma>>(context);
     print("THIS IS WHERE IM PRINTING");
     print(shawarma);
 
     return ListView.builder(
-      itemCount: shawarma.length,
+      itemCount: shawarma?.length ?? 0,
       itemBuilder: (context, index) {
         return ShawarmaTile(shawarma: shawarma[index]);
       },
