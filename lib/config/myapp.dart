@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/config/splash.dart';
 import 'package:flutter_firebase/models/user.dart';
 import 'package:flutter_firebase/providers/wrapper.dart';
 import 'package:flutter_firebase/services/auth.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().userInstance,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Wrapper(),
+        home: MyHomePage(),
       ),
     );
   }

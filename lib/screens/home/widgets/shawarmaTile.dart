@@ -14,12 +14,13 @@ class ShawarmaTile extends StatelessWidget {
       child: Card(
         margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
         child: ListTile(
+          tileColor: Colors.grey[500],
           leading: CircleAvatar(
             radius: 25.0,
             backgroundColor: Colors.brown[shawarma.strength],
           ),
           title: Text(shawarma.name),
-          subtitle: Text(shawarma.strength.toString()),
+          subtitle: Text(shawarma.shawarma),
         ),
       ),
     );

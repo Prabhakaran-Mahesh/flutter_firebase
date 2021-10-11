@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/config/colors.dart';
 import 'package:flutter_firebase/config/constants.dart';
+import 'package:flutter_firebase/config/images.dart';
 import 'package:flutter_firebase/config/loading.dart';
 import 'package:flutter_firebase/services/auth.dart';
 
@@ -27,11 +29,12 @@ class _RegisterState extends State<Register> {
     return loading
         ? Loading()
         : Scaffold(
-            backgroundColor: ColorPallete.BrownLight,
+            backgroundColor: ColorPallete.Black,
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              backgroundColor: ColorPallete.AppbarBrown,
+              backgroundColor: ColorPallete.Black,
               elevation: 0.0,
-              title: Text('Register to the App'),
+              title: Text('Register!'),
               actions: [
                 TextButton.icon(
                   onPressed: () {
@@ -39,85 +42,105 @@ class _RegisterState extends State<Register> {
                   },
                   icon: Icon(
                     Icons.person,
-                    color: ColorPallete.Black,
+                    color: ColorPallete.White,
                   ),
                   label: Text(
                     "SignIn",
                     style: TextStyle(
-                      color: ColorPallete.Black,
+                      color: ColorPallete.White,
                     ),
                   ),
+                ),
+                SizedBox(
+                  width: 10.0,
                 ),
               ],
             ),
             body: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(Gallery.BgImage),
+                  ),
+                ),
                 padding: EdgeInsets.symmetric(
                   vertical: 20.0,
                   horizontal: 50.0,
                 ),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      TextFormField(
-                        decoration:
-                            textInputDecoration.copyWith(hintText: "Email"),
-                        validator: (value) =>
-                            value.isEmpty ? 'Enter an Email' : null,
-                        onChanged: (value) {
-                          setState(() {
-                            email = value;
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      TextFormField(
-                        decoration:
-                            textInputDecoration.copyWith(hintText: "Password"),
-                        obscureText: true,
-                        validator: (value) => value.length < 6
-                            ? 'Password contains 6+ characters'
-                            : null,
-                        onChanged: (value) {
-                          setState(() {
-                            password = value;
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(() {
-                              loading = true;
-                            });
-                            dynamic result = await _auth.registerEmailPassword(
-                                email, password);
-                            if (result == null) {
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          TextFormField(
+                            decoration:
+                                textInputDecoration.copyWith(hintText: "Email"),
+                            validator: (value) =>
+                                value.isEmpty ? 'Enter an Email' : null,
+                            onChanged: (value) {
                               setState(() {
-                                error = 'error';
-                                loading = false;
+                                email = value;
                               });
-                            }
-                          }
-                        },
-                        child: Text(
-                          "Register",
-                        ),
+                            },
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          TextFormField(
+                            decoration: textInputDecoration.copyWith(
+                                hintText: "Password"),
+                            obscureText: true,
+                            validator: (value) => value.length < 6
+                                ? 'Password contains 6+ characters'
+                                : null,
+                            onChanged: (value) {
+                              setState(() {
+                                password = value;
+                              });
+                            },
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: ColorPallete.White,
+                              minimumSize: Size(200, 40),
+                            ),
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                setState(() {
+                                  loading = true;
+                                });
+                                dynamic result = await _auth
+                                    .registerEmailPassword(email, password);
+                                if (result == null) {
+                                  setState(() {
+                                    error = 'error';
+                                    loading = false;
+                                  });
+                                }
+                              }
+                            },
+                            child: Text(
+                              "Register",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 12.0,
+                          ),
+                          Text(error),
+                        ],
                       ),
-                      SizedBox(
-                        height: 12.0,
-                      ),
-                      Text(error),
-                    ],
-                  ),
+                    ),
+                  ],
                 )),
           );
   }

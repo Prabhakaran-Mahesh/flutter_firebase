@@ -29,10 +29,11 @@ class Home extends StatelessWidget {
     return StreamProvider<List<Shawarma>>.value(
       value: DatabaseService().shawarma,
       child: Scaffold(
-        backgroundColor: ColorPallete.VeryLightBrown,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: ColorPallete.Black,
         appBar: AppBar(
-          title: Text("The firebase App"),
-          backgroundColor: ColorPallete.AppbarBrown,
+          title: Text("Juicer"),
+          backgroundColor: ColorPallete.Black,
           elevation: 0.0,
           actions: [
             TextButton.icon(
@@ -41,10 +42,10 @@ class Home extends StatelessWidget {
               },
               icon: Icon(
                 Icons.logout,
-                color: ColorPallete.Black,
+                color: ColorPallete.White,
               ),
               label: Text(
-                "SignOut",
+                "",
                 style: TextStyle(color: ColorPallete.Black),
               ),
             ),
@@ -52,10 +53,10 @@ class Home extends StatelessWidget {
               onPressed: () => _settingsPanel(),
               icon: Icon(
                 Icons.settings,
-                color: ColorPallete.Black,
+                color: ColorPallete.White,
               ),
               label: Text(
-                "Settings",
+                "",
                 style: TextStyle(color: ColorPallete.Black),
               ),
             ),
@@ -63,7 +64,16 @@ class Home extends StatelessWidget {
             SizedBox(width: 5.0),
           ],
         ),
-        body: ShawarmaList(),
+        body: Container(
+          child: ShawarmaList(),
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            image: AssetImage(
+              "assets/home.jpg",
+            ),
+            fit: BoxFit.contain,
+          )),
+        ),
       ),
     );
   }

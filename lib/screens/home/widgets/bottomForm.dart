@@ -29,70 +29,83 @@ class _BottomFormState extends State<BottomForm> {
             UserData userData = snapshot.data;
             return Form(
               key: _formKey,
-              child: Column(
-                children: [
-                  Text(
-                    'Update your Info settings',
-                    style: TextStyle(
-                      fontSize: 18.0,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text(
+                      'Update your Info settings',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  TextFormField(
-                    initialValue: userData.name,
-                    decoration: textInputDecoration.copyWith(hintText: "Name"),
-                    validator: (value) =>
-                        value.isEmpty ? 'Enter a Name' : userData.name,
-                    onChanged: (value) {
-                      setState(() {
-                        _currentName = value;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-
-                  //MayoSlider
-                  TextFormField(
-                    initialValue: userData.mayo,
-                    decoration: textInputDecoration.copyWith(hintText: "Mayo"),
-                    validator: (value) =>
-                        value.isEmpty ? 'Enter Mayo' : userData.mayo,
-                    onChanged: (value) {
-                      setState(() {
-                        _currentMayo = value;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-
-                  //StrengthSlider
-                  Slider(
-                    activeColor:
-                        Colors.brown[_currentStrength ?? userData.strength],
-                    inactiveColor:
-                        Colors.brown[_currentStrength ?? userData.strength],
-                    value: (_currentStrength ?? userData.strength).toDouble(),
-                    onChanged: (value) => setState(
-                      () => _currentStrength = value.round(),
+                    SizedBox(
+                      height: 20.0,
                     ),
-                    min: 100,
-                    max: 900,
-                    divisions: 8,
-                  ),
-
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Update",
+                    TextFormField(
+                      initialValue: userData.name,
+                      decoration:
+                          textInputDecoration.copyWith(hintText: "Name"),
+                      validator: (value) =>
+                          value.isEmpty ? 'Enter a Name' : null,
+                      onChanged: (value) {
+                        setState(() {
+                          _currentName = value;
+                        });
+                      },
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: 20.0,
+                    ),
+
+                    //MayoSlider
+                    TextFormField(
+                      initialValue: userData.mayo,
+                      decoration:
+                          textInputDecoration.copyWith(hintText: "Mayo"),
+                      validator: (value) => value.isEmpty ? 'Enter Mayo' : null,
+                      onChanged: (value) {
+                        setState(() {
+                          print(userData.mayo);
+                          _currentMayo = value;
+                        });
+                      },
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+
+                    //StrengthSlider
+                    Slider(
+                      activeColor:
+                          Colors.brown[_currentStrength ?? userData.strength],
+                      inactiveColor:
+                          Colors.brown[_currentStrength ?? userData.strength],
+                      value: (_currentStrength ?? userData.strength).toDouble(),
+                      onChanged: (value) => setState(
+                        () => _currentStrength = value.round(),
+                      ),
+                      min: 100,
+                      max: 900,
+                      divisions: 8,
+                    ),
+
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          await DatabaseService(uid: user.uid).updateUserData(
+                            _currentMayo ?? userData.mayo,
+                            _currentName ?? userData.name,
+                            _currentStrength ?? userData.strength,
+                          );
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Text(
+                        "Update",
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           } else {
